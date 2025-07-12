@@ -1,0 +1,186 @@
+<% layout('layout/boilerplate') %>
+<link rel="stylesheet" href="/css/star.css" />
+<div class="mt-4 pt-4">
+  <a class="btn btn-outline-danger mt-4" href="/campgrounds"
+    >Back to camgrounds</a
+  >
+  <div class="row my-4 gap-5 gap-md-0">
+    <div class="col-md-6">
+      <div class="">
+        <div
+          id="carouselWithControls"
+          class="carousel slide"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner">
+            <% for (let img of campground.image){ %>
+            <div class="carousel-item active">
+              <img
+                src="<%= img.url %>"
+                class="d-block w-100 img-fluid"
+                alt="Slide 1"
+              />
+            </div>
+            <% } %>
+          </div>
+          <% if (campground.image.length > 1){ %>
+          <a
+            class="carousel-control-prev"
+            href="#carouselWithControls"
+            role="button"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </a>
+          <a
+            class="carousel-control-next"
+            href="#carouselWithControls"
+            role="button"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </a>
+          <% } %>
+        </div>
+
+        <div class="card-body mt-4">
+          <h5 class="card-title"><%= campground.title %></h5>
+          <h6 class="text-muted my-1">
+            Author - <%= campground.author.username %>
+          </h6>
+          <p class="card-text my-2"><%= campground.description %></p>
+          <p class="card-text">
+            <small class="text-muted"><%= campground.location %></small>
+          </p>
+          <h5 class="card-text">Price - <%= campground.price %>$</h5>
+          <% if (currentUser && campground.author.equals(currentUser._id)) { %>
+          <div
+            class="d-flex justify-content-start gap-2 align-items-start align-items-md-center"
+          >
+            <a
+              class="btn btn-outline-success"
+              href="/campgrounds/<%= campground._id %>/edit"
+              >Edit Campground</a
+            >
+            <form
+              action="/campgrounds/<%= campground._id %>?_method=DELETE"
+              method="POST"
+            >
+              <button class="btn btn-outline-danger">Delete</button>
+            </form>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div>
+        <h4 class="text-dark">Reviews</h4>
+        <% if (campground.reviews.length) {%> <% for (let review of
+        campground.reviews){%>
+        <div class="card my-2">
+          <div class="card-body">
+            <h5 class="card-title fw-bolder text-dark">
+              <%= review.author.username %>
+            </h5>
+            <p class="starability-result" data-rating="<%=review.rating%>">
+              Rated: <%=review.rating%> stars
+            </p>
+            <h6>
+              Review - <span class="card-text my-2"><%=review.body%></span>
+            </h6>
+            <% if (currentUser && review.author.equals(currentUser._id)) { %>
+            <form
+              action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE"
+              method="POST"
+            >
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+            <%}%>
+          </div>
+        </div>
+        <%}%> <%} else {%>
+
+        <h6>No Reviews Yet</h6>
+        <%}%>
+      </div>
+
+      <% if(currentUser) {%>
+      <hr />
+      <div>
+        <h4 class="text-dark">Leave a review</h4>
+        <div class="card p-4">
+          <form
+            class="needs-validation"
+            action="/campgrounds/<%= campground._id %>/reviews"
+            method="POST"
+            novalidate
+          >
+            <fieldset class="starability-basic">
+              <input
+                type="radio"
+                id="no-rate"
+                class="input-no-rate"
+                name="review[rating]"
+                value="0"
+                checked
+                aria-label="No rating."
+              />
+              <input
+                type="radio"
+                id="first-rate1"
+                name="review[rating]"
+                value="1"
+              />
+              <label for="first-rate1" title="Terrible">1 star</label>
+              <input
+                type="radio"
+                id="first-rate2"
+                name="review[rating]"
+                value="2"
+              />
+              <label for="first-rate2" title="Not good">2 stars</label>
+              <input
+                type="radio"
+                id="first-rate3"
+                name="review[rating]"
+                value="3"
+              />
+              <label for="first-rate3" title="Average">3 stars</label>
+              <input
+                type="radio"
+                id="first-rate4"
+                name="review[rating]"
+                value="4"
+              />
+              <label for="first-rate4" title="Very good">4 stars</label>
+              <input
+                type="radio"
+                id="first-rate5"
+                name="review[rating]"
+                value="5"
+              />
+              <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+            <label for="formControlInput" class="form-label"
+              ><h5 class="fw-bold">Review</h5></label
+            >
+            <textarea
+              type="text"
+              name="review[body]"
+              class="form-control"
+              id="formControlInput"
+              placeholder="Write Your Review"
+              rows="3"
+              required
+            ></textarea>
+            <button class="btn btn-success mt-4">Submit Review</button>
+          </form>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<header class="bg-dark fixed-top shadow-lg py-1">
+  <div class="container">
+    <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/home">Yelp-Camp</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarDark"
+          aria-controls="navbarDark"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse show" id="navbarDark">
+          <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/campgrounds">Campgrounds</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/campgrounds/new">New Campground</a>
+            </li>
+          </ul>
+          <div class="ms-auto">
+            <% if (!currentUser) {%>
+            <a class="btn btn-sm btn-outline-light" href="/register"
+              >Register</a
+            >
+
+            <a class="btn btn-sm btn-outline-light" href="/login">Log In</a>
+            <%} else {%>
+
+            <img
+              src="<%= currentUser.image ? currentUser.image.url : 'https://www.freepik.com/free-photos-vectors/profile' %>"
+              class="rounded-circle mx-2"
+              alt="User profile image"
+              style="width: 35px; height: 35px; object-fit: cover"
+            />
+
+            <a class="btn btn-sm btn-outline-light" href="/logout">Log Out</a>
+            <%}%>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>

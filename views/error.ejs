@@ -1,0 +1,8 @@
+<% layout('layout/boilerplate') %>
+<div class="mt-4 pt-4">
+  <div class="alert alert-danger" role="alert">
+    <p>Error <%= err.statusCode %> - <%= err.message %></p>
+    <p><%= err.stack %></p>
+  </div>
+  <a class="btn btn-outline-danger" href="/campgrounds">Back to campgrounds</a>
+</div>
