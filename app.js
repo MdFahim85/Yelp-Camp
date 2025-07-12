@@ -74,7 +74,7 @@ app.use((req, res, next) => {
   next();
 });
 
-port = 3000;
+const port = process.env.PORT || 3000;
 
 app.get("/home", (req, res) => {
   res.render("home");
